@@ -3,8 +3,14 @@ from textwrap import dedent
 
 
 class SqlQuery:
-    @staticmethod
-    def query_album(name: str) -> bool:
+    def __init__(self, db_path="data/chinook.db"):
+        self.conn = sqlite3.connect(db_path)
+        self.cur = self.conn.cursor()
+
+    def __del__(self):
+        self.conn.close()
+
+    def query_album(self, name: str) -> bool:
         """Check if an album exists
 
         Args:
@@ -13,23 +19,18 @@ class SqlQuery:
         Returns:
             bool: True if the album exists, False otherwise
         """
-        conn = sqlite3.connect("data/chinook.db")
-        cur = conn.cursor()
 
-        cur.execute(f"SELECT * FROM Album WHERE Title = '{name}'")
-        return len(cur.fetchall()) > 0
+        self.cur.execute(f"SELECT * FROM Album WHERE Title = '{name}'")
+        return len(self.cur.fetchall()) > 0
 
-    @staticmethod
-    def join_albums() -> list:
+    def join_albums(self) -> list:
         """Join the Album, Artist, and Track tables
 
         Returns:
             list:
         """
-        conn = sqlite3.connect("data/chinook.db")
-        cur = conn.cursor()
 
-        cur.execute(
+        self.cur.execute(
             dedent(
                 """\
                 SELECT 
@@ -49,19 +50,16 @@ class SqlQuery:
                 """
             )
         )
-        return cur.fetchall()
+        return self.cur.fetchall()
 
-    @staticmethod
-    def top_invoices() -> list:
+    def top_invoices(self) -> list:
         """Get the top 10 invoices by total
 
         Returns:
             list: List of tuples
         """
-        conn = sqlite3.connect("data/chinook.db")
-        cur = conn.cursor()
 
-        cur.execute(
+        self.cur.execute(
             dedent(
                 """\
                 SELECT 
@@ -72,7 +70,8 @@ class SqlQuery:
                     Invoice i
                 JOIN Customer c ON c.CustomerId = i.CustomerId
                 ORDER BY i.Total DESC
+                LIMIT 10
                 """
             )
         )
-        return cur.fetchall()[:10]
+        return self.cur.fetchall()
