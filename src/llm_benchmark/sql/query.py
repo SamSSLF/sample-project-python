@@ -16,6 +16,9 @@ class SqlQuery:
         conn = sqlite3.connect("data/chinook.db")
         cur = conn.cursor()
 
+        # Create an index on the Title column if it doesn't exist
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_album_title ON Album (Title)")
+
         cur.execute(f"SELECT * FROM Album WHERE Title = '{name}'")
         return len(cur.fetchall()) > 0
 
@@ -28,6 +31,10 @@ class SqlQuery:
         """
         conn = sqlite3.connect("data/chinook.db")
         cur = conn.cursor()
+
+        # Create indexes on AlbumId and ArtistId columns if they don't exist
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_album_albumid ON Album (AlbumId)")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_artist_artistid ON Artist (ArtistId)")
 
         cur.execute(
             dedent(
