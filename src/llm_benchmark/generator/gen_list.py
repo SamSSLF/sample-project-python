@@ -1,5 +1,6 @@
 from random import randint
 from typing import List
+import numpy as np
 
 
 class GenList:
@@ -17,14 +18,14 @@ class GenList:
         return [randint(0, m) for _ in range(n)]
 
     @staticmethod
-    def random_matrix(n: int, m: int) -> List[List[int]]:
+    def random_matrix(rows: int, cols: int) -> List[List[int]]:
         """Generate a matrix of random integers
 
         Args:
-            n (int): Number of rows
-            m (int): Number of columns
+            rows (int): Number of rows
+            cols (int): Number of columns
 
         Returns:
             List[List[int]]: Matrix of random integers
         """
-        return [GenList.random_list(n, m) for _ in range(n)]
+        return np.random.randint(0, cols, size=(rows, cols)).tolist()
