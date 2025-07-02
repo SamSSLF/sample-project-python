@@ -1,6 +1,5 @@
 from typing import List
 
-
 class SingleForLoop:
     @staticmethod
     def sum_range(n: int) -> int:
@@ -12,7 +11,7 @@ class SingleForLoop:
         Returns:
             int: Sum of range of numbers from 0 to n
         """
-        return sum([i for i in range(n)])
+        return n * (n + 1) // 2
 
     @staticmethod
     def max_list(v: List[int]) -> int:
@@ -41,4 +40,6 @@ class SingleForLoop:
         Returns:
             int: Sum of modulus of numbers from 0 to n
         """
-        return sum([i for i in range(n) if i % m == 0])
+        # Calculate the largest multiple of m less than n
+        max_multiple = (n // m) * m
+        return m * (max_multiple // m) * ((max_multiple // m) + 1) // 2
