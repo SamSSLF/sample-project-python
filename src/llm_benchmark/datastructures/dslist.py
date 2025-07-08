@@ -1,5 +1,5 @@
 from typing import List
-
+from collections import deque
 
 class DsList:
     @staticmethod
@@ -12,10 +12,8 @@ class DsList:
         Returns:
             List[int]: Modified list of integers
         """
-        ret = []
-        for i in range(len(v)):
-            ret.append(v[i] + 1)
-        return ret
+        # Using list comprehension for conciseness and potential speed improvement
+        return [x + 1 for x in v]
 
     @staticmethod
     def search_list(v: List[int], n: int) -> List[int]:
@@ -29,11 +27,8 @@ class DsList:
         Returns:
             List[int]: List of indices where the value is found
         """
-        ret = []
-        for i in range(len(v)):
-            if v[i] == n:
-                ret.append(i)
-        return ret
+        # Using list comprehension for conciseness and potential speed improvement
+        return [i for i, x in enumerate(v) if x == n]
 
     @staticmethod
     def sort_list(v: List[int]) -> List[int]:
@@ -45,13 +40,8 @@ class DsList:
         Returns:
             List[int]: Sorted list of integers
         """
-        ret = v.copy()
-        for i in range(len(ret)):
-            for j in range(i + 1, len(ret)):
-                if ret[i] > ret[j]:
-                    ret[i], ret[j] = ret[j], ret[i]
-
-        return ret
+        # Using sorted() for optimized sorting
+        return sorted(v)
 
     @staticmethod
     def reverse_list(v: List[int]) -> List[int]:
@@ -63,10 +53,8 @@ class DsList:
         Returns:
             List[int]: Reversed list of integers
         """
-        ret = []
-        for i in range(len(v)):
-            ret.append(v[len(v) - 1 - i])
-        return ret
+        # Using slicing for efficient list reversal
+        return v[::-1]
 
     @staticmethod
     def rotate_list(v: List[int], n: int) -> List[int]:
@@ -79,12 +67,10 @@ class DsList:
         Returns:
             List[int]: Rotated list of integers
         """
-        ret = []
-        for i in range(n, len(v)):
-            ret.append(v[i])
-        for i in range(n):
-            ret.append(v[i])
-        return ret
+        # Using deque for efficient rotation
+        d = deque(v)
+        d.rotate(-n)
+        return list(d)
 
     @staticmethod
     def merge_lists(v1: List[int], v2: List[int]) -> List[int]:
@@ -97,9 +83,5 @@ class DsList:
         Returns:
             List[int]: Merged list of integers
         """
-        ret = []
-        for i in range(len(v1)):
-            ret.append(v1[i])
-        for i in range(len(v2)):
-            ret.append(v2[i])
-        return ret
+        # Using the + operator for efficient list merging
+        return v1 + v2
